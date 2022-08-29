@@ -32,7 +32,6 @@ namespace EADS.API.Controllers
             return null;
         }
         // POST: api/EADSStrings
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<EADSResponsePostDTO>> PostEncStringData([FromBody]EncStringDTO data)
         {
