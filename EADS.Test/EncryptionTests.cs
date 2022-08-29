@@ -13,7 +13,7 @@ public class EncryptionTests
     {
         var encryptionService = new EncryptionService();
         string passPhrase = "Banan123";
-        string data = "Hej jag heter Torsten och jag har 42 stycken kossor";
+        string data = "Mohammedharjättemångastoramaraboukakor";
         var encryptionValue = encryptionService.GenerateEncryptionValue();
 
         var response = encryptionService.Encrypt(data,encryptionValue, passPhrase);

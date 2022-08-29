@@ -10,7 +10,7 @@ public class EncryptionService : IEncryptionService
 {
     //This has to be generated in the future.
     private const string initVector = "~1B2c3D4e5F6g7H8"; //Has to be 16-bytes
-    private const int keySize = 256; //can be 256, 192 or 128
+    private const int keySize = 128; //can be 256, 192 or 128
     private const string StrHashName = "SHA1"; //can also use "MD5", "SHA1"
     private readonly HashAlgorithmName hash = HashAlgorithmName.SHA512;
     private const int min = 800;
@@ -29,6 +29,7 @@ public class EncryptionService : IEncryptionService
         byte[] bytes = Encoding.ASCII.GetBytes(eV.InitVector);
         byte[] rgbSalt = Encoding.ASCII.GetBytes(eV.SaltValue);
         byte[] buffer = Convert.FromBase64String(data);
+        //byte[] buffer = BitConverter.GetBytes();
         //byte[] rgbKey = new PasswordDeriveBytes(passPhrase, rgbSalt, StrHashName, eV.PassIterations).GetBytes(eV.KeySize / 8);
         byte[] rgbKey = new Rfc2898DeriveBytes(passPhrase, rgbSalt, eV.PassIterations, hash).GetBytes(eV.KeySize / 8);
 
@@ -74,6 +75,7 @@ public class EncryptionService : IEncryptionService
         stream.Close();
         stream2.Close();
         return Convert.ToBase64String(inArray);
+        //return BitConverter.ToString(inArray).Replace(" ", string.Empty);
     }
 
     //Generates an associated EncryptionValue Object with Encryption values specific to the resource.
