@@ -11,8 +11,7 @@ public class EncryptionService : IEncryptionService
     //This has to be generated in the future.
     private const string initVector = "~1B2c3D4e5F6g7H8"; //Has to be 16-bytes
     private const int keySize = 128; //can be 256, 192 or 128
-    private const string StrHashName = "SHA1"; //can also use "MD5", "SHA1"
-    private readonly HashAlgorithmName hash = HashAlgorithmName.SHA512;
+    private readonly HashAlgorithmName hash = HashAlgorithmName.SHA256;
     private const int min = 800;
     private const int max = 1200;
 
@@ -29,8 +28,6 @@ public class EncryptionService : IEncryptionService
         byte[] bytes = Encoding.ASCII.GetBytes(eV.InitVector);
         byte[] rgbSalt = Encoding.ASCII.GetBytes(eV.SaltValue);
         byte[] buffer = Convert.FromBase64String(data);
-        //byte[] buffer = BitConverter.GetBytes();
-        //byte[] rgbKey = new PasswordDeriveBytes(passPhrase, rgbSalt, StrHashName, eV.PassIterations).GetBytes(eV.KeySize / 8);
         byte[] rgbKey = new Rfc2898DeriveBytes(passPhrase, rgbSalt, eV.PassIterations, hash).GetBytes(eV.KeySize / 8);
 
         var managed = Aes.Create("AesManaged");
@@ -41,6 +38,11 @@ public class EncryptionService : IEncryptionService
         CryptoStream stream2 = new(stream, transform, CryptoStreamMode.Read);
         byte[] buffer5 = new byte[buffer.Length];
         int count = stream2.Read(buffer5, 0, buffer5.Length);
+        if (count < buffer5.Length)
+        {
+            int count2 = stream2.Read(buffer5, count, buffer5.Length - count);
+            count = count + count2;
+        }
         stream.Close();
         stream2.Close();
         return Encoding.UTF8.GetString(buffer5, 0, count);
@@ -59,12 +61,10 @@ public class EncryptionService : IEncryptionService
         byte[] bytes = Encoding.ASCII.GetBytes(eV.InitVector);
         byte[] rgbSalt = Encoding.ASCII.GetBytes(eV.SaltValue);
         byte[] buffer = Encoding.UTF8.GetBytes(data);
-        //byte[] rgbKey = new PasswordDeriveBytes(passPhrase, rgbSalt, StrHashName, eV.PassIterations).GetBytes(eV.KeySize / 8);
         byte[] rgbKey = new Rfc2898DeriveBytes(passPhrase, rgbSalt, eV.PassIterations, hash).GetBytes(eV.KeySize / 8);
 
         var managed = Aes.Create("AesManaged");
         managed.Padding = PaddingMode.PKCS7;
-        
         managed.Mode = CipherMode.CBC;
         ICryptoTransform transform = managed.CreateEncryptor(rgbKey, bytes);
         MemoryStream stream = new();
@@ -75,7 +75,6 @@ public class EncryptionService : IEncryptionService
         stream.Close();
         stream2.Close();
         return Convert.ToBase64String(inArray);
-        //return BitConverter.ToString(inArray).Replace(" ", string.Empty);
     }
 
     //Generates an associated EncryptionValue Object with Encryption values specific to the resource.
