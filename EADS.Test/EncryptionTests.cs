@@ -80,8 +80,33 @@ public class EncryptionTests
 
 
 
+
         //assert
         Assert.True(match);
 
+    }
+    [Fact]
+    public void EncryptAndDecryptByteArrayToMatch()
+    {
+        //arrange
+        var encryptionService = new EncryptionService();
+        var passPhrase = "TheLordOfTheRingsRules123!";
+        var originalFile = GenerateTestByteArrayFromFile();
+        var eV = encryptionService.GenerateEncryptionValue();
+
+
+
+        //act
+        var tolkEnc = encryptionService.EncryptByteArray(originalFile, eV, passPhrase);
+        var result = encryptionService.DecryptByteArray(tolkEnc, eV, passPhrase);
+
+        var originalToString = originalFile.ToString();
+        var resultToString = result.ToString();
+        //assert
+        Assert.True(originalToString.Equals(resultToString));
+    }
+    private byte[] GenerateTestByteArrayFromFile()
+    {
+        return File.ReadAllBytes($"C:\\Users\\KaiTapper\\Desktop\\EncryptTestFile\\tolkien.pdf.pdf");
     }
 }
