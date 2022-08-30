@@ -11,9 +11,9 @@ public class EncryptionService : IEncryptionService
     //This has to be generated in the future.
     private const string initVector = "~1B2c3D4e5F6g7H8"; //Has to be 16-bytes
     private const int keySize = 256; //can be 256, 192 or 128
-    private readonly HashAlgorithmName hash = HashAlgorithmName.SHA256;
-    private const int min = 800;
-    private const int max = 1200;
+    private readonly HashAlgorithmName hash = HashAlgorithmName.SHA512;
+    private const int min = 1000;
+    private const int max = 2000;
 
     //Decrypts a Single String Value and Returns it.
     /// <summary>
