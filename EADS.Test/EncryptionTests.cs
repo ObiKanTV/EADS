@@ -105,8 +105,6 @@ public class EncryptionTests
         //assert
         Assert.True(originalToString.Equals(resultToString));
     }
-    private byte[] GenerateTestByteArrayFromFile()
-    {
-        return File.ReadAllBytes($"C:\\Users\\KaiTapper\\Desktop\\EncryptTestFile\\tolkien.pdf.pdf");
-    }
+    //Note: This is not how we generally handle files, this is just for testing. There are more complex/safe methods of getting a file.
+    private byte[] GenerateTestByteArrayFromFile() => File.ReadAllBytes($"C:\\Users\\KaiTapper\\Desktop\\EncryptTestFile\\tolkien.pdf.pdf");
 }
