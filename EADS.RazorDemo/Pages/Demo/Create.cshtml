@@ -1,0 +1,59 @@
+﻿@page
+@model EADS.RazorDemo.Pages.Demo.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>DemoPresentationObject</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DemoPresentationObject.Name" class="control-label"></label>
+                <input asp-for="DemoPresentationObject.Name" class="form-control" />
+                <span asp-validation-for="DemoPresentationObject.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DemoPresentationObject.Description" class="control-label"></label>
+                <input asp-for="DemoPresentationObject.Description" class="form-control" />
+                <span asp-validation-for="DemoPresentationObject.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DemoPresentationObject.PhoneNumber" class="control-label"></label>
+                <input asp-for="DemoPresentationObject.PhoneNumber" class="form-control" />
+                <span asp-validation-for="DemoPresentationObject.PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DemoPresentationObject.FileContent" class="control-label"></label>
+                <input asp-for="DemoPresentationObject.FileContent" class="form-control" />
+                <span asp-validation-for="DemoPresentationObject.FileContent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DemoPresentationObject.SSN" class="control-label"></label>
+                <input asp-for="DemoPresentationObject.SSN" class="form-control" />
+                <span asp-validation-for="DemoPresentationObject.SSN" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DemoPresentationObject.PassPhrase" class="control-label"></label>
+                <input asp-for="DemoPresentationObject.PassPhrase" class="form-control" />
+                <span asp-validation-for="DemoPresentationObject.PassPhrase" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
