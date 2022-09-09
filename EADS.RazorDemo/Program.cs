@@ -1,3 +1,4 @@
+using EADS.RazorDemo.Data;
 using EADS.RazorDemo.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,6 +9,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<EADSRazorDemoContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("EADSRazorDemoContext") ?? throw new InvalidOperationException("Connection string 'EADSRazorDemoContext' not found.")));
 builder.Services.AddScoped<IFormFileService, FormFileService>();
+builder.Services.AddScoped<IAPIService, APIService>();
 
 var app = builder.Build();
 

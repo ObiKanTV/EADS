@@ -4,12 +4,12 @@
 
 namespace EADS.Infrastructure.Migrations
 {
-    public partial class Init : Migration
+    public partial class demo : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "EncryptionValue",
+                name: "EncryptionValues",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -20,7 +20,29 @@ namespace EADS.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EncryptionValue", x => x.Id);
+                    table.PrimaryKey("PK_EncryptionValues", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DemoPresentationEncObjects",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FileContent = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SSN = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EncryptionValueId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DemoPresentationEncObjects", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DemoPresentationEncObjects_EncryptionValues_EncryptionValueId",
+                        column: x => x.EncryptionValueId,
+                        principalTable: "EncryptionValues",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -39,9 +61,9 @@ namespace EADS.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_EncObjectData", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EncObjectData_EncryptionValue_EncryptionValueId",
+                        name: "FK_EncObjectData_EncryptionValues_EncryptionValueId",
                         column: x => x.EncryptionValueId,
-                        principalTable: "EncryptionValue",
+                        principalTable: "EncryptionValues",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -58,12 +80,17 @@ namespace EADS.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_EncStringData", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EncStringData_EncryptionValue_EncryptionValueId",
+                        name: "FK_EncStringData_EncryptionValues_EncryptionValueId",
                         column: x => x.EncryptionValueId,
-                        principalTable: "EncryptionValue",
+                        principalTable: "EncryptionValues",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DemoPresentationEncObjects_EncryptionValueId",
+                table: "DemoPresentationEncObjects",
+                column: "EncryptionValueId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EncObjectData_EncryptionValueId",
@@ -79,13 +106,16 @@ namespace EADS.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "DemoPresentationEncObjects");
+
+            migrationBuilder.DropTable(
                 name: "EncObjectData");
 
             migrationBuilder.DropTable(
                 name: "EncStringData");
 
             migrationBuilder.DropTable(
-                name: "EncryptionValue");
+                name: "EncryptionValues");
         }
     }
 }

@@ -21,6 +21,11 @@ namespace EADS.Application.Services.Repositories.Shared
             throw new NotImplementedException();
         }
 
+        public Task<bool> Exists(string id)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<TEntity> Get(EADSRequestGetDTO request)
         {
             throw new NotImplementedException();

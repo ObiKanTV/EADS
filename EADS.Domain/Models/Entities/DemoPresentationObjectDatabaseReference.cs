@@ -6,5 +6,7 @@ namespace EADS.Domain.Models.Entities
     {
         public string? PassPhrase { get; set; }
         public string? DataStoreKey { get; set; }
+        public string? FileName { get; set; }
+        public string? FileType { get; set; }
     }
 }

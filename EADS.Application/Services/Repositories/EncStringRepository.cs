@@ -2,6 +2,7 @@
 using EADS.Domain.Interfaces.Services;
 using EADS.Domain.Models.DTOs;
 using EADS.Domain.Models.Entities;
+using EADS.Infrastructure.DbContexts;
 
 namespace EADS.Application.Services.Repositories;
 
@@ -32,6 +33,11 @@ public class EncStringRepository : IEncStringRepository
 
         return Task.FromResult(new EADSResponsePostDTO() {Id = encModel.Id });
 
+    }
+
+    public Task<bool> Exists(string id)
+    {
+        throw new NotImplementedException();
     }
 
     public Task<EncStringDTO> Get(EADSRequestGetDTO request)

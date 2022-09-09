@@ -10,5 +10,6 @@ public interface IRepositoryBase<TEntity> where TEntity : DTOBase
     Task<TEntity> Get(EADSRequestGetDTO request);
     Task<EADSResponsePostDTO> Add(TEntity entity);
     Task Remove(string id);
+    Task<bool> Exists(string id);
 }
 

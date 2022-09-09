@@ -1,5 +1,8 @@
 using EADS.Application.Services;
+using EADS.Application.Services.Repositories;
+using EADS.Domain.Interfaces.Repositories;
 using EADS.Domain.Interfaces.Services;
+using EADS.Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +13,7 @@ builder.Services.AddDbContext<EADSContext>(options =>
 
 builder.Services.AddControllers();
 builder.Services.AddSingleton<IEncryptionService, EncryptionService>();
+builder.Services.AddScoped<IDemoPresentationEncRepository, DemoPresentationEncRepository>();
 
 var app = builder.Build();
 

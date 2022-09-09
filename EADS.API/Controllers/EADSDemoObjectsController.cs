@@ -22,48 +22,45 @@ namespace EADS.API.Controllers
             this.repo = repo;
         }
 
-        // GET: api/EADSStrings/
+        // GET: api/EADSDemoObjects/
         [HttpGet]
-        public async Task<ActionResult<EncStringDTO>> GetEncStringData([FromBody] EADSRequestGetDTO request)
+        public async Task<ActionResult<DemoPresentationObjectDTO>> GetDemoData(string id, string passPhrase)
         {
+            if (id == null || passPhrase == null) return BadRequest("Missing Parameters");
+            if (!await repo.Exists(id))
+            {
+                return NotFound();
+            }
+            var request = new EADSRequestGetDTO() {Id = id, PassPhrase = passPhrase };
+            
+            var response = await repo.Get(request);
+            if(response == null) return NotFound("Could not be found or not be decrypted.");
 
-            //var encStringData = await _context.EncStringData.FindAsync(id);
-
-            return null;
+            return Ok(response);
         }
-        // POST: api/EADSStrings
+        // POST: api/EADSDemoObjects/
         [HttpPost]
-        public async Task<ActionResult<EADSResponsePostDTO>> PostEncStringData([FromBody]DemoPresentationObjectDTO data)
+        public async Task<ActionResult<EADSResponsePostDTO>> PostDemoData(DemoPresentationObjectDTO data)
         {
-            //if (_context.EncStringData == null)
-            //{
-            //    return Problem("Entity set 'EADSContext.EncStringData'  is null.");
-            //}
-            EADSResponsePostDTO responsePostDTO = new();
-            //  //_context.EncStringData.Add(encStringData);
-            //  await _context.SaveChangesAsync();
+            if (data == null) return BadRequest("Missing Parameters");
+            var response = await repo.Add(data);
 
-            return CreatedAtAction("api/EADSStrings/{id}", responsePostDTO);
+            
+            return Ok(response);
         }
 
-        // DELETE: api/EADSStrings/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteEncStringData(string id)
+        // DELETE: api/EADSDemoObjects/
+        [HttpDelete]
+        public async Task<IActionResult> DeleteDemoObjectData(string id)
         {
-            //if (_context.EncStringData == null)
-            //{
-            //    return NotFound();
-            //}
-            //var encStringData = await _context.EncStringData.FindAsync(id);
-            //if (encStringData == null)
-            //{
-            //    return NotFound();
-            //}
+            if (!await repo.Exists(id))
+            {
+                return NotFound();
+            }
 
-            //_context.EncStringData.Remove(encStringData);
-            //await _context.SaveChangesAsync();
-
+            await repo.Remove(id);
             return NoContent();
         }
+        
     }
 }
